@@ -3,6 +3,7 @@
 # Author: Tom Kerr AB3GY
 #
 # Create a local web page to get POTA spots and control a transceiver using flrig.
+# Helps facilitate POTA hunting from a home station.
 # POTA = Parks on the Air
 # POTA references:
 #     https://parksontheair.com/

@@ -68,7 +68,7 @@ def log_data(call, freq, mode, ref, name):
         my_adif.set_field('COMMENT', comment)
         with open(adif_filename, 'a') as f:
             try:
-                f.write('{}\n'.format(my_adif.get_adif()))
+                f.write('{}\n'.format(my_adif.get_adif(sort=False)))
             except Exception as err:
                 print('ADIF file write error: {}'.format(str(err)))
 

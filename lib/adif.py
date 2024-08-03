@@ -175,12 +175,16 @@ class adif(object):
         return self._EOH
 
     # ------------------------------------------------------------------------    
-    def get_adif(self):
+    def get_adif(self, sort=True):
         """
         Return the entire ADIF QSO record as a formatted ADIF record.
         """
         adif = ""
-        for field in sorted(self.QSO.keys()):
+        if sort:
+            fields = sorted(self.QSO.keys())
+        else:
+            fields = list(self.QSO.keys())
+        for field in fields:
             value = self.QSO[field]
             adif += '<' + field + ':' + str(len(value)) + '>' + value + ' '
         adif += '<EOR>'
