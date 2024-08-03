@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+{% include 'header.html' %}
+<script src="{{ url_for('static', filename='js/jquery-3.7.1-min.js') }}" type="text/javascript"></script>
+</head>
+<body>
+  <h1 align="center">POTA-Flrig Transceiver Controller for POTA Spots</h1>
+  <p> 
+    Page created at {{create_time}} UTC <br/>
+    Page will reload in <span id='timeout-seconds'></span> seconds. &nbsp;
+    <button type="button" id="btn_pause" style="margin-top:10px; margin-bottom:10px;" onclick="pauseReload()">Pause</button><br/>
+    Activation count: {{spots_list|length}}
+  </p>
+
+  <div class="filter">
+    <hr/><h3>Filters</h3>
+    <form name="filters" action="/" method="post">
+      <label>Band: </label>
+      <select name="band" id="band">
+        <option value="all" {% if filters.band=='all' %} selected="true" {% endif %} >ALL</option>
+        {% for band in band_list %}
+          <option value="{{band}}" {% if filters.band==band %} selected="true" {% endif %} > {{band}} </option>
+        {% endfor %}
+      </select>
+      
+      <label>&nbsp; Mode: </label>
+      <select name="mode" id="mode">
+        <option value="all" {% if filters.band=='all' %} selected="true" {% endif %} >ALL</option>
+        {% for mode in mode_list %}
+          <option value="{{mode}}" {% if filters.mode==mode %} selected="true" {% endif %} > {{mode}} </option>
+        {% endfor %}
+      </select>
+      
+      <label>&nbsp; Location: </label>
+      <select name="program" id="program">
+        <option value="all" {% if filters.band=='all' %} selected="true" {% endif %} >ALL</option>
+        {% for program in program_list %}
+          <option value="{{program}}" {% if filters.program==program %} selected="true" {% endif %} > {{program}} </option>
+        {% endfor %}
+      </select>
+      
+      <label>&nbsp; Sort by: </label>
+      <select name="sortby" id="sortby">
+        <option value="activator" {% if filters.sortby=='activator' %} selected="true" {% endif %} >Activator</option>
+        <option value="frequency" {% if filters.sortby=='frequency' %} selected="true" {% endif %} >Frequency</option>
+        <option value="mode" {% if filters.sortby=='mode' %} selected="true" {% endif %} >Mode</option>
+        <option value="location" {% if filters.sortby=='location' %} selected="true" {% endif %} >Location</option>
+        <option value="time" {% if filters.sortby=='time' %} selected="true" {% endif %} >Last Spot</option>
+      </select>
+      
+      <label>&nbsp; Exclude QRT: </label>
+      <input type="checkbox" id="exqrt" name="exqrt" value="true" {% if filters.exclude_qrt==true %} checked {% endif %} >
+      <br/><input type="submit" style="margin-top:10px; margin-bottom:10px;" value="Submit">
+    </form><hr/>
+  </div>
+
+  <table>
+      <tr>
+        <th>Activator</th><th>Name</th><th>Frequency</th><th>Mode</th><th>Location</th><th>Last Spot</th>
+        <th>Spotter</th><th>Source</th><th>Comments</th><th>Set Rig</th><th>Log Data</th>
+      </tr>
+    {% for spot in spots_list %}
+      {% set loc_list = spot.locationDesc.split(',') %}
+      <tr>
+      <td>{{spot.activator}}</td>
+      <td>{{spot.reference}}  {{spot.name}}</td>
+      <td>{{spot.frequency}}</td>
+      <td>{{spot.mode}}</td>
+      <td>
+      {% for loc in loc_list %}
+        {{loc}} <br/>
+      {% endfor %}
+      </td>
+      {% if spot.timeSince >= 120 %}
+        <td>{{(spot.timeSince / 60)|int}} minutes ago at {{spot.spotTimeShort}}</td>
+      {% elif spot.timeSince >= 60 %}
+        <td>1 minute ago at {{spot.spotTimeShort}}</td>
+      {% else %}
+        <td>&lt; 1 minute ago at {{spot.spotTimeShort}}</td>
+      {% endif %}
+      <td>{{spot.spotter}}</td>
+      <td>{{spot.source}}</td>
+      <td>{{spot.comments}}</td>
+      <td><button type="button" onclick="set_flrig('{{spot.frequency}}','{{spot.mode}}')">Set</button></td>
+      <td><button type="button" onclick="log_data('{{spot.activator}}','{{spot.frequency}}','{{spot.mode}}','{{spot.reference}}','{{spot.name}}')">Log</button></td>
+      </tr>
+    {% endfor %}
+  </table>
+  <script src="{{ url_for('static', filename='js/potarig_utils.js') }}" type="text/javascript"></script>
+</body>
+</html>

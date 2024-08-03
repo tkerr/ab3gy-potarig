@@ -1,0 +1,25 @@
+# potarig.ini
+# AB3GY potarig application configuration file
+# Example shown for Yaesu FT-991A transceiver
+
+[ADIF]
+FILENAME=potarig_log.adif
+
+[FLASK]
+HOST=localhost
+PORT=8080
+
+[FLRIG]
+URL=http://192.168.1.225:12345
+
+# Map POTA modes to transcriver modes
+[MODES]
+CW=CW-U
+FM=FM
+FT4=DATA-U
+FT8=DATA-U
+PSK=DATA-U
+PSK31=DATA-U
+RTTY=DATA-L
+LSB=LSB
+USB=USB

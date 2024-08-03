@@ -1,0 +1,27 @@
+table, p {
+  margin: 0.25in;
+}
+
+h1, h2, h3 {
+    font-family: Arial;
+    font-weight: bold;
+    color: black;
+}
+
+table, th, td {
+  text-align: center;
+  border: 1px solid black;
+  border-collapse: collapse;
+  border-spacing: 0.1in;
+  padding: 0.05in;
+  font-family: Arial;
+  font-size: 10pt;
+  color: black;
+}
+
+
+.filter {
+  margin-left: 0.25in;
+  margin-right: 0.25in;
+}
+
