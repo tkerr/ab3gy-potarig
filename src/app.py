@@ -83,7 +83,6 @@ def update_filters(filters):
     """
     global g_filters
     filter_keys = list(filters.keys())
-    #print(filters)
     
     if 'band' in filter_keys:
         g_filters['band'] = filters['band'].upper()
@@ -97,7 +96,6 @@ def update_filters(filters):
         g_filters['exclude_qrt'] = True
     else:
         g_filters['exclude_qrt'] = False
-    #print(g_filters)
 
 
 ##############################################################################
@@ -110,28 +108,21 @@ def update_filters(filters):
 @app.route('/', methods=['GET', 'POST'])
 def route_app_main():
     global g_filters
-    #print('A')
     spots_list = potaspots.get_latest_spots()
-    #print(spots_list)
     now = int(time.time())
     create_time = time.strftime("%Y-%m-%d %H:%M", time.gmtime())
     
-    #print('B')
     band_list, mode_list, program_list = potaspots.parse_spots(spots_list)
     
     if (request.method == 'POST'):
-        #print('C')
         filters = request.form.to_dict()
         update_filters(filters)
     
-    #print('D')
     filtered_spots = potaspots.filter_spots(spots_list, g_filters)
     
-    #print('E')
     for spot in filtered_spots:
         spot['timeSince'] = int(now - spot['spotTime'])
     
-    #print('F')
     html = render_template('app_main.html',
         create_time=create_time,
         spots_list=filtered_spots,

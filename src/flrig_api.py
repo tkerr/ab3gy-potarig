@@ -34,7 +34,7 @@ def client_init(server_url=DEFAULT_SERVER_URL):
 #-----------------------------------------------------------------------------
 def set_modes(modes_dict):
     """
-    Initialize the FlrigClient object.
+    Set the modes dictionary that maps POTA modes to transceiver modes.
     """
     global modes_map
     for k,v in modes_dict.items():

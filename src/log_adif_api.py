@@ -32,7 +32,7 @@ def init_api(filename):
     if (len(filename) > 0):
         adif_filename = Path(filename)
         if not adif_filename.exists():
-            with open(adif_filename, 'a') as f:
+            with open(adif_filename, 'w') as f:
                 header='potarig log file <eoh>\n'
                 try:
                     f.write(header)
