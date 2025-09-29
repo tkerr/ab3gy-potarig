@@ -53,7 +53,7 @@ import sys
 
 # Environment setup.
 sys.path.insert(1, os.path.abspath('./lib'))
-sys.path.insert(3, os.path.abspath('./src'))
+sys.path.insert(2, os.path.abspath('./src'))
 
 # Local packages.
 import lib.ConfigFile as ConfigFile

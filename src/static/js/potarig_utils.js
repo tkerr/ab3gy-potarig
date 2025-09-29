@@ -5,6 +5,13 @@
 var pageTimeout = 60;
 var pageCountdown = pageTimeout;
 var reloadPaused = false;
+var opcall = "";
+
+// Get the operator callsign entered in the operator text input field.
+function get_opcall() {
+  var inputOperator = document.getElementById("operator");
+  opcall = inputOperator.value;
+}
 
 // Execute a HTTP request to set rig frequency and mode via flrig.
 function set_flrig(freq, mode) {
@@ -15,8 +22,9 @@ function set_flrig(freq, mode) {
 
 // Save log data to a file.
 function log_data(call, freq, mode, ref, name) {
+  get_opcall();
   var url = window.location.href;
-  var request = url.concat('/logdata?call=', call, '&freq=', freq, '&mode=', mode, '&ref=', ref, '&name=', name);
+  var request = url.concat('/logdata?call=', call, '&freq=', freq, '&mode=', mode, '&ref=', ref, '&name=', name, '&opcall=', opcall);
   fetch(request);
 }
 
@@ -26,6 +34,7 @@ function decrementPageTimeout() {
     pageCountdown -= 1;
     document.getElementById('timeout-seconds').innerText = pageCountdown;
     if (pageCountdown <= 0) {
+      get_opcall();
       // This will refresh the page without performing a POST operation
       location.href = location.href;
     }

@@ -10,7 +10,12 @@
     Page created at {{create_time}} UTC <br/>
     Page will reload in <span id='timeout-seconds'></span> seconds. &nbsp;
     <button type="button" id="btn_pause" style="margin-top:10px; margin-bottom:10px;" onclick="pauseReload()">Pause</button><br/>
-    Activation count: {{spots_list|length}}
+    Activation count: {{spots_list|length}}<br/>
+    <form action="/set_operator" method="post">
+      <label>Operator: &nbsp;</label>
+      <input type="text" id="operator" name="operator" placeholder="Enter your callsign" maxlength="16" value="{{opcall}}" >
+      <input type="submit" value="Submit">
+    </form>
   </p>
 
   <div class="filter">

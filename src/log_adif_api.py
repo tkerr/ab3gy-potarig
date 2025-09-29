@@ -41,7 +41,7 @@ def init_api(filename):
         
 
 #-----------------------------------------------------------------------------
-def log_data(call, freq, mode, ref, name):
+def log_data(call, freq, mode, ref, name, opcall):
     """
     Create an ADIF record and save it to the log file.
     """
@@ -66,6 +66,8 @@ def log_data(call, freq, mode, ref, name):
         my_adif.set_field('QSO_DATE', qso_date)
         my_adif.set_field('TIME_ON', qso_time)
         my_adif.set_field('COMMENT', comment)
+        my_adif.set_field('OPERATOR', opcall.upper())
+        my_adif.set_field('STATION_CALLSIGN', opcall.upper())
         with open(adif_filename, 'a') as f:
             try:
                 f.write('{}\n'.format(my_adif.get_adif(sort=False)))

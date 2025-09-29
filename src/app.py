@@ -20,6 +20,9 @@ import src.potaspots as potaspots
 ############################################################################## 
 app = Flask(__name__)
 
+# Global operator callsign.
+g_opcall = ''
+
 # Global POTA display filters.
 g_filters = {
     'band'        : 'ALL',
@@ -107,6 +110,7 @@ def update_filters(filters):
 #-----------------------------------------------------------------------------
 @app.route('/', methods=['GET', 'POST'])
 def route_app_main():
+    global g_opcall
     global g_filters
     spots_list = potaspots.get_latest_spots()
     now = int(time.time())
@@ -129,6 +133,7 @@ def route_app_main():
         band_list=band_list,
         mode_list=mode_list,
         program_list=program_list,
+        opcall=g_opcall,
         filters=g_filters)
     resp = make_response(html)
     return resp
@@ -151,7 +156,16 @@ def route_app_logdata():
         mode = request.args.get('mode')
         ref = request.args.get('ref')
         name = request.args.get('name')
-        log_adif.log_data(call, freq, mode, ref, name)
+        opcall = request.args.get('opcall')
+        log_adif.log_data(call, freq, mode, ref, name, opcall)
+    return ('', 204) # 204 No Content
+
+#-----------------------------------------------------------------------------
+@app.route('/set_operator', methods=['POST'])
+def route_app_set_operator():
+    global g_opcall
+    if (request.method == 'POST'):
+        g_opcall = request.form.get('operator').upper()
     return ('', 204) # 204 No Content
 
 
