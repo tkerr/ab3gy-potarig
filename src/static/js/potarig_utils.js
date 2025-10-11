@@ -15,6 +15,8 @@ function get_opcall() {
 
 // Execute a HTTP request to set rig frequency and mode via flrig.
 function set_flrig(freq, mode) {
+  reloadPaused = false;
+  pauseReload();
   var url = window.location.href;
   var request = url.concat('/flrig?freq=', freq, '&mode=', mode);
   fetch(request);
